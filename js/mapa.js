@@ -15,7 +15,7 @@ const formatearMoneda = (valor) => {
 
 var map = L.map('map', {
     crs: L.CRS.Simple,
-    minZoom: -0.6,
+    minZoom: -2,
     maxZoom: 3,
     attributionControl: false,
     zoomControl: false
@@ -274,7 +274,7 @@ fetch(googleSheetURL)
     const currentZoom = map.getZoom();
     const labels = document.querySelectorAll('.lote-label');
     
-    const threshold = 0; // Zoom donde aparecen
+    const threshold = 1; // Zoom donde aparecen
     const baseSize = 10;    // Tamaño inicial más pequeño
     const factor = 5;      // Crecimiento más suave
     const maxSize = 20;   
