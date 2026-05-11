@@ -1,0 +1,433 @@
+:root {
+    --color-logo: #36573B;
+    --brand-brown: #7A6855;
+    --brand-beige: #D6D2C4;
+    --brand-cyan: #2DCCD3;
+    --brand-green-light: #67823A;
+    --brand-dark: #002D0E;
+    --brand-gold: #D69A2D;
+    --font-titles: 'Barlow Condensed', sans-serif;
+    --font-body: 'Barlow', sans-serif;
+}
+
+body, html {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    font-family: var(--font-body);
+}
+
+/* Contenedor del Logotipo */
+#brand-logo {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 1000;
+    pointer-events: none;
+}
+
+#brand-logo img {
+    width: 25vw;
+    height: auto;
+}
+
+#map {
+    width: 100vw;
+    height: 100vh;
+    background-size: 30px 30px;
+    background-image: radial-gradient(circle, var(--brand-beige) 1px, transparent 1px);
+    background-position: 0 0;
+    background-color: #ffffff;
+}
+
+.leaflet-container {
+    background-color: transparent !important; 
+}
+
+/* Estilos del Overlay */
+.overlay {
+    display: none; 
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #ffffff;
+    z-index: 10000;
+    overflow-y: auto;
+    opacity: 0;
+    transform: translateY(20px); 
+    pointer-events: none;
+    transition: all 0.4s ease;
+}
+
+.overlay.active {
+    pointer-events: auto;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.close-overlay {
+    position: fixed;
+    top: 20px;
+    right: 30px;
+    font-size: 40px;
+    font-weight: bold;
+    color: var(--color-logo);
+    cursor: pointer;
+    z-index: 10001;
+}
+
+.overlay-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+}
+
+.overlay-image {
+    flex: 1;
+    background-color: var(--brand-beige);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.overlay-image img {
+    max-width: 90%;
+    max-height: 90%;
+    object-fit: contain;
+}
+
+.overlay-body {
+    padding: 40px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: var(--brand-dark);
+}
+
+/* Tipografías específicas en el contenido del lote */
+#detalles-lote h1, #detalles-lote h2, #detalles-lote h3 {
+    font-family: var(--font-titles);
+    font-weight: 300; /* Barlow Condensada Light */
+    text-transform: uppercase;
+    color: var(--color-logo);
+}
+
+#detalles-lote p {
+    font-family: var(--font-body);
+    font-weight: 400; /* Barlow Regular */
+    line-height: 1.6;
+}
+
+/* Loader personalizado */
+#loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--brand-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 20000;
+    font-family: var(--font-titles);
+}
+
+.loader-content {
+    text-align: center;
+    color: var(--color-logo);
+}
+
+.brand-loader {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.logo-fondo-static {
+    fill: var(--brand-beige);
+    opacity: 0.2; /* El fondo "vacío" */
+}
+
+.logo-wrapper {
+    position: relative;
+    width: 100px; 
+    height: 112px; 
+    margin: 0 auto 20px;
+}
+
+#fill-container {
+    position: absolute;
+    bottom: 0;         /* El contenedor crece desde abajo */
+    left: 0;
+    width: 100%;
+    height: 0%;        /* GSAP animará esto */
+    overflow: hidden;  /* Recorta el contenido */
+}
+
+.logo-relleno-static {
+    fill: var(--brand-beige);
+    position: absolute;
+    top: auto;
+    bottom: 0;
+    left: 0;
+    width: 100px; 
+    height: 112px; 
+}
+
+/* Texto del loader */
+.loader-content p {
+    font-family: var(--font-body);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 14px;
+    color: var(--brand-beige);
+}
+
+@media (min-width: 768px) {
+    .overlay-container {
+        flex-direction: row;
+    }
+    .overlay-image, .overlay-body {
+        width: 50%;
+        height: 100vh;
+    }
+    #brand-logo img {
+    width: 15vw;
+    height: auto;
+}
+}
+
+/* --- Rediseño del Contenedor de Filtros (Bottom Sheet Style) --- */
+#filter-container {
+    position: fixed;
+    bottom: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 92%; /* No llega a los bordes laterales en móvil */
+    max-width: 800px;
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(12px);
+    z-index: 2000;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    box-sizing: border-box;
+    border-radius: 24px; /* Bordes muy redondeados tipo pastilla */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    gap: 20px;
+    border: 1px solid rgba(0,0,0,0.05);
+}
+
+.filter-section {
+    display: flex;
+    gap: 25px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    min-width: 240px;
+    flex: 1;
+}
+
+.filter-group label {
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--brand-dark);
+    margin-bottom: 12px;
+    letter-spacing: 1px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center; 
+}
+
+.filter-val {
+    white-space: nowrap; 
+    font-weight: 500;  
+    color: var(--brand-dark);
+}
+
+/* --- Estilizado Moderno de Sliders (Custom Range) --- */
+input[type=range] {
+    -webkit-appearance: none;
+    width: 100%;
+    background: transparent;
+    cursor: pointer;
+}
+
+/* Quitar el outline al enfocar */
+input[type=range]:focus {
+    outline: none;
+}
+
+/* Track (La línea del slider) */
+input[type=range]::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 8px; /* Altura de la línea */
+    background: var(--brand-beige);
+    border-radius: 10px;
+    border: none;
+}
+
+/* Thumb (La perilla/pastilla) */
+input[type=range]::-webkit-slider-thumb {
+    height: 24px;
+    width: 24px;
+    border-radius: 50%;
+    background: var(--brand-dark);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+    -webkit-appearance: none;
+    margin-top: -8px; /* Centrar respecto al track */
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
+/* Efecto al presionar */
+input[type=range]:active::-webkit-slider-thumb {
+    transform: scale(1.15);
+    background: var(--color-logo);
+}
+
+/* Compatibilidad para Firefox */
+input[type=range]::-moz-range-track {
+    width: 100%;
+    height: 8px;
+    background: var(--brand-beige);
+    border-radius: 10px;
+}
+input[type=range]::-moz-range-thumb {
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    background: var(--brand-dark);
+}
+
+/* --- Leyenda Ajustada --- */
+.legend-section {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    padding-top: 15px;
+    border-top: 1px solid rgba(0,0,0,0.05);
+}
+
+/* Desktop Adjustment */
+@media (min-width: 768px) {
+    #filter-container {
+        bottom: 20px;
+        padding: 15px 30px;
+        flex-direction: row;
+        align-items: center;
+        width: auto; /* Se ajusta al contenido en desktop */
+    }
+    .filter-section {
+        border-right: 1px solid rgba(0,0,0,0.1);
+        padding-right: 30px;
+    }
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+    font-family: var(--font-body);
+    color: var(--brand-dark);
+}
+
+.dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: 6px;
+}
+.dot.disponible { background-color: #418d4d; border: 1px solid #002D0E; }
+.dot.apartado { background-color: #D69A2D; border: 1px solid #886711; }
+.dot.vendido { background-color: #808080; border: 1px solid #002D0E; }
+.dot.desarrollo { background-color: transparent; border: 1px solid #002D0E; }
+
+.lote-label {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    color: var(--brand-dark) !important;
+    font-family: var(--font-body);
+    font-weight: 600;
+    pointer-events: none;
+    display: none; 
+    white-space: nowrap;
+    text-align: center;
+    transform: translate(-50%, -50%);
+}
+
+/* Ajuste opcional para que los sliders se vean activos desde el inicio */
+input[type=range] {
+    cursor: pointer;
+}
+/* --- Estilos para el nuevo comportamiento móvil --- */
+
+/* Ocultar elementos móviles por defecto */
+#filter-fab, #filter-backdrop {
+    display: none;
+}
+
+
+@media (max-width: 767px) {
+    /* Botón Circular */
+    #filter-fab {
+        display: flex;
+        position: fixed;
+        bottom: 25px;
+        right: 25px;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background-color: var(--brand-dark);
+        border: none;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        z-index: 2500;
+        align-items: center;
+        justify-content: center;
+    }
+    .mobile-only-fab svg {
+        width: 24px;
+        height: 24px;
+        fill: white;
+    }
+
+    /* Contenedor de Filtros "Flotante" en móvil */
+    #filter-container {
+        left: 4%; /* Centrado horizontal (100 - 92 / 2) */
+        bottom: 20px; /* Margen inferior para que flote */
+        width: 92%;
+        max-width: none;
+        border-radius: 24px; /* Redondeado completo */
+        transform: translateY(120%); /* Empieza más abajo para ocultar la sombra */
+        margin-bottom: 0;
+        z-index: 3000;
+        position: fixed;
+        /* Ya no se pega a los bordes laterales */
+    }
+
+    #filter-backdrop {
+        display: block;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.1);
+        z-index: 2900;
+        opacity: 0;
+        pointer-events: none;
+    }
+}
