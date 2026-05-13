@@ -1,6 +1,6 @@
 let dataLoaded = false;
 let datosLotes = {}; 
-const googleSheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQBG0chOy_HTPPxnnS9ugpakcSOkhjHfw44NPNlWufBgWmGYHCEo-36lfMF_Gb8jrpXbVFQZQFESCGu/pub?gid=0&single=true&output=tsv';
+const googleSheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRppioD8iuH-_EW-sIZM14nmFsOO-CJ3EULJ9jrRL01k_na1mDpq86ev0V4MMTDznqqslTHMopie2h8/pub?gid=0&single=true&output=tsv';
 let capaLotes;
 
 const formatearMoneda = (valor) => {
